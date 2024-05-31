@@ -1,0 +1,6 @@
+{
+    "app_name": "FastAPI LeetCode Algorithms",
+    "version": "1.0.0",
+    "description": "An API to perform common LeetCode algorithm tasks"
+}
+  
