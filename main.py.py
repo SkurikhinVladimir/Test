@@ -1,18 +1,19 @@
 from fastapi import FastAPI
-import json
+from pydantic import BaseModel
+from algorithms import binary_search, palindrome_check
+from schemas import BinarySearchInput, PalindromeCheckInput
 
-from routers import binary_search, merge_sort, palindrome_check
+app = FastAPI()
 
-# Load configuration
-with open("config.json") as config_file:
-    config = json.load(config_file)
+@app.post("/binary_search")
+def perform_binary_search(input_data: BinarySearchInput):
+    index = binary_search.binary_search(input_data.arr, input_data.target)
+    return {"index": index}
 
-app = FastAPI(
-    title=config["app_name"],
-    version=config["version"],
-    description=config["description"]
-)
+@app.post("/palindrome_check")
+def perform_palindrome_check(input_data: PalindromeCheckInput):
+    is_palindrome = palindrome_check.is_palindrome(input_data.s)
+    return {"is_palindrome": is_palindrome}
 
-# Include routers
-app.include_router(binary_search.router, prefix="/binary_search", tags=["Binary Search"])
-app.include_router(palindrome_check.router, prefix="/palindrome_check", tags=["Palindrome Check"])
+
+
